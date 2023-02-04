@@ -1,0 +1,79 @@
+### GET all tracks -- aspect code 200
+GET http://localhost:4000/track
+
+### GET track by track id -- aspect code 200 if track exist
+GET  http://localhost:4000/track/ff42a997-773d-414c-85a6-575e409d8622
+
+### GET not valid id -- aspect code 400
+GET http://localhost:4000/track/sime_id
+
+### GET not existing track -- aspect code 404
+GET http://localhost:4000/track/7ca29540-0942-411e-852a-45c169817964
+
+### POST add new track -- aspect code 201
+POST http://localhost:4000/track
+content-type: application/json
+
+{
+  "name": "TEST_TRACK_2",
+  "duration": 199,
+  "artistId": null,
+  "albumId": null
+} 
+
+### POST add new track NOT valid body -- aspect code 500
+POST http://localhost:4000/track
+content-type: application/json
+
+{
+  "name": "TEST_TRACK_2",
+  "duration": 199,
+  "artistId": null,
+  "albumId": null,
+} 
+
+### PUT update track by track id -- aspect code 200
+PUT http://localhost:4000/track/29b85cca-a4a2-4ed3-a59c-8932928b4d7e
+content-type: application/json
+
+{
+  "name": "TEST_TRACK_2",
+  "duration": 199,
+  "artistId": null,
+  "albumId": null
+}
+
+### PUT update track by track id NOT exist -- aspect code 404
+PUT http://localhost:4000/track/8df366bd-e51d-436f-bb4b-60d7b89290d9
+content-type: application/json
+
+{
+  "name": "TEST_TRACK_2",
+  "duration": 199,
+  "artistId": null,
+  "albumId": null
+}
+
+### PUT update track by track id NOT valid track id -- aspect code 400
+PUT http://localhost:4000/track/some_id
+content-type: application/json
+
+{
+  "name": "TEST_TRACK_2",
+  "duration": 199,
+  "artistId": null,
+  "albumId": null
+}
+
+### DELELTE delete track by track id -- aspect code 204 if track exist
+DELETE http://localhost:4000/track/29b85cca-a4a2-4ed3-a59c-8932928b4d7e
+
+### DELETE delete track by track id NOT Valid -- aspect code 400
+DELETE http://localhost:4000/track/some_id
+
+
+### DELETE delete track by track id NOT exist -- aspect code 404
+DELETE http://localhost:4000/track/a1ed4ab0-9b7a-4af8-a6a7-28136f8a44a4
+
+### GET 404 Page not found
+GET http://localhost:4000/not_exist_page
