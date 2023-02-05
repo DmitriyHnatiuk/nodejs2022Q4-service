@@ -8,6 +8,7 @@ import { UpdateAlbumDto } from './../dto/update-album.dto';
 @Injectable()
 class AlbumsStore implements IAlbumStore {
   private albums: { [key: string]: Album } = {};
+  private favorites = [];
 
   getAlbums(): Album[] {
     return Object.values(this.albums);
@@ -44,8 +45,22 @@ class AlbumsStore implements IAlbumStore {
     return;
   }
 
-  isIncludeData(id: string): boolean {
-    return Boolean(this.albums[id]);
+  isFavorites(id: string): boolean {
+    return this.favorites.includes(id);
+  }
+
+  getFavorites() {
+    return this.favorites.map((album) => this.albums[album]);
+  }
+
+  addToFavorites(id: string) {
+    return (this.favorites = [...new Set([...this.favorites, id])]);
+  }
+
+  deleteFromFavorites(id: string) {
+    return (this.favorites = this.favorites.filter(
+      (entryId) => entryId !== id,
+    ));
   }
 }
 

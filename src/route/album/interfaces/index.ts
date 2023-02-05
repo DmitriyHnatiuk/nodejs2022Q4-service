@@ -14,5 +14,8 @@ export interface IAlbumStore {
   createAlbum: (data: CreateAlbumDto) => Album;
   updateAlbum: (id: string, data: UpdateAlbumDto) => Album;
   deleteAlbum: (id: string) => void;
-  isIncludeData: (id: string) => boolean;
+  isFavorites: (id: string) => boolean;
+  addToFavorites: (id: string) => string[];
+  deleteFromFavorites: (id: string) => void;
+  getFavorites: () => Album[];
 }

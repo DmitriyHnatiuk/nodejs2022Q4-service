@@ -36,6 +36,34 @@ export class TrackService {
     if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
+
+    const isFavorites = this.tracks.isFavorites(id);
+    if (isFavorites) {
+      this.tracks.deleteFromFavorites(id);
+    }
     return this.tracks.deleteTrack(id);
+  }
+
+  getFavorites() {
+    return this.tracks.getFavorites();
+  }
+
+  addToFavorites(id: string) {
+    const track = this.tracks.getTrackById(id);
+    if (!track) {
+      throw new HttpException(
+        "Track doesn't exist",
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    return this.tracks.addToFavorites(id);
+  }
+
+  deleteFromFavorites(id: string) {
+    const isFavorites = this.tracks.isFavorites(id);
+    if (!isFavorites) {
+      throw new HttpException('Track is not favorite', HttpStatus.NOT_FOUND);
+    }
+    return this.tracks.deleteFromFavorites(id);
   }
 }

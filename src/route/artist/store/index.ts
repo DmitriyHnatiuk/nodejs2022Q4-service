@@ -7,45 +7,60 @@ import { IArtistStore } from '../interfaces';
 
 @Injectable()
 class ArtistStore implements IArtistStore {
-  private artist: { [key: string]: Artist } = {};
+  private artists: { [key: string]: Artist } = {};
+  private favorites = [];
 
   getArtists(): Artist[] {
-    return Object.values(this.artist);
+    return Object.values(this.artists);
   }
 
   getArtistById(id: string): Artist {
-    return this.artist[id];
+    return this.artists[id];
   }
 
   createArtist(data: CreateArtistDto): Artist {
     const id = createUuid();
-    this.artist = {
-      ...this.artist,
+    this.artists = {
+      ...this.artists,
       [id]: { ...data, id },
     };
     return this.getArtistById(id);
   }
 
   updateArtist(id: string, data: UpdateArtistDto): Artist {
-    this.artist = {
-      ...this.artist,
+    this.artists = {
+      ...this.artists,
       [id]: {
-        ...this.artist[id],
+        ...this.artists[id],
         ...data,
       },
     };
 
-    return this.artist[id];
+    return this.artists[id];
   }
 
   deleteArtist(id: string) {
-    const { [id]: data, ...rest } = this.artist;
-    this.artist = rest;
+    const { [id]: data, ...rest } = this.artists;
+    this.artists = rest;
     return;
   }
 
-  isIncludeData(id: string): boolean {
-    return Boolean(this.artist[id]);
+  isFavorites(id: string): boolean {
+    return this.favorites.includes(id);
+  }
+
+  getFavorites() {
+    return this.favorites.map((artist) => this.artists[artist]);
+  }
+
+  addToFavorites(id: string) {
+    return (this.favorites = [...new Set([...this.favorites, id])]);
+  }
+
+  deleteFromFavorites(id: string) {
+    return (this.favorites = this.favorites.filter(
+      (entryId) => entryId !== id,
+    ));
   }
 }
 

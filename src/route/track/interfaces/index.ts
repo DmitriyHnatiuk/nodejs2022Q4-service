@@ -15,5 +15,8 @@ export interface ITrackStore {
   createTrack: (data: CreateTrackDto) => Track;
   updateTrack: (id: string, data: UpdateTrackDto) => Track;
   deleteTrack: (id: string) => void;
-  isIncludeData: (id: string) => boolean;
+  isFavorites: (id: string) => boolean;
+  addToFavorites: (id: string) => string[];
+  deleteFromFavorites: (id: string) => void;
+  getFavorites: () => Track[];
 }

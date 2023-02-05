@@ -13,5 +13,8 @@ export interface IArtistStore {
   createArtist: (data: CreateArtistDto) => Artist;
   updateArtist: (id: string, data: UpdateArtistDto) => Artist;
   deleteArtist: (id: string) => void;
-  isIncludeData: (id: string) => boolean;
+  isFavorites: (id: string) => boolean;
+  addToFavorites: (id: string) => string[];
+  deleteFromFavorites: (id: string) => void;
+  getFavorites: () => Artist[];
 }
