@@ -1,0 +1,23 @@
+### GET all favorites -- aspect code 200
+GET http://localhost:4000/favs
+
+
+### POST track to fivorites -- aspect code 200
+POST http://localhost:4000/favs/track/159461dd-fff5-4f78-8aa1-d7d192c94edd
+
+
+### DELETE track to fivorites -- aspect code 204
+DELETE  http://localhost:4000/favs/track/159461dd-fff5-4f78-8aa1-d7d192c94edd
+
+### POST album to fivorites -- aspect code 200
+POST http://localhost:4000/favs/album/fd79e767-c0ed-4207-b2f9-6f7a0354bca7
+
+### DELETE album to fivorites -- aspect code 200
+DELETE http://localhost:4000/favs/album/fd79e767-c0ed-4207-b2f9-6f7a0354bca7
+
+
+### POST artist to fivorites -- aspect code 200
+POST http://localhost:4000/favs/artist/74de2320-85d6-4999-a29a-86f97c83e62c
+
+### DELETE artist to fivorites -- aspect code 200
+DELETE http://localhost:4000/favs/artist/159461dd-fff5-4f78-8aa1-d7d192c94edd
