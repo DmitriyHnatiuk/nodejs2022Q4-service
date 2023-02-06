@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Favorites } from 'src/utils';
 import { v4 as createUuid } from 'uuid';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { Album } from '../entities/album.entity';
@@ -6,9 +7,8 @@ import { IAlbumStore } from '../interfaces';
 import { UpdateAlbumDto } from './../dto/update-album.dto';
 
 @Injectable()
-class AlbumsStore implements IAlbumStore {
+class AlbumsStore extends Favorites implements IAlbumStore {
   private albums: { [key: string]: Album } = {};
-  private favorites = [];
 
   getAlbums(): Album[] {
     return Object.values(this.albums);
@@ -45,22 +45,8 @@ class AlbumsStore implements IAlbumStore {
     return;
   }
 
-  isFavorites(id: string): boolean {
-    return this.favorites.includes(id);
-  }
-
   getFavorites() {
     return this.favorites.map((album) => this.albums[album]);
-  }
-
-  addToFavorites(id: string) {
-    return (this.favorites = [...new Set([...this.favorites, id])]);
-  }
-
-  deleteFromFavorites(id: string) {
-    return (this.favorites = this.favorites.filter(
-      (entryId) => entryId !== id,
-    ));
   }
 }
 

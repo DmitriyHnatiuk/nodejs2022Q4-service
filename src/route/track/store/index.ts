@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Favorites } from 'src/utils';
 import { v4 as createUuid } from 'uuid';
 import { CreateTrackDto } from '../dto/create-track.dto';
 import { UpdateTrackDto } from '../dto/update-track.dto';
@@ -6,9 +7,8 @@ import { Track } from '../entities/track.entity';
 import { ITrackStore } from '../interfaces';
 
 @Injectable()
-class TracksStore implements ITrackStore {
+class TracksStore extends Favorites implements ITrackStore {
   private tracks: { [key: string]: Track } = {};
-  private favorites: string[] = [];
 
   getTracks(): Track[] {
     return Object.values(this.tracks);
@@ -45,22 +45,8 @@ class TracksStore implements ITrackStore {
     return;
   }
 
-  isFavorites(id: string): boolean {
-    return Boolean(this.favorites.includes(id));
-  }
-
   getFavorites() {
     return this.favorites.map((track) => this.tracks[track]);
-  }
-
-  addToFavorites(id: string) {
-    return (this.favorites = [...new Set([...this.favorites, id])]);
-  }
-
-  deleteFromFavorites(id: string) {
-    return (this.favorites = this.favorites.filter(
-      (entryId) => entryId !== id,
-    ));
   }
 }
 
