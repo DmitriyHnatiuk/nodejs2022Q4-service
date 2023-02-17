@@ -1,7 +1,5 @@
 import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
-import { ICreateArtistDto } from '../interfaces';
-
-export class CreateArtistDto implements ICreateArtistDto {
+export class CreateArtistDto {
   @IsNotEmpty()
   @IsString()
   name: string;
