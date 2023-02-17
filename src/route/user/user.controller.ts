@@ -23,33 +23,32 @@ export class UserController {
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  create(@Body() createUserDto: CreateUserDto) {
-    const user = this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const user = await this.userService.create(createUserDto);
     return new SerializeUser(user);
   }
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  findAll() {
-    return this.userService
-      .findAll()
-      .map((user) => plainToClass(SerializeUser, user));
+  async findAll() {
+    const users = await this.userService.findAll();
+    return users.map((user) => plainToClass(SerializeUser, user));
   }
 
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    const user = this.userService.findOne(id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    const user = await this.userService.findOne(id);
     return new SerializeUser(user);
   }
 
   @Put(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  update(
+  async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const user = this.userService.update(id, updateUserDto);
+    const user = await this.userService.update(id, updateUserDto);
     return new SerializeUser(user);
   }
 

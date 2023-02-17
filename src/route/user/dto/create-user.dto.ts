@@ -1,7 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ICreateUserDto } from '../interfaces';
 
-export class CreateUserDto implements ICreateUserDto {
+export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   login: string;

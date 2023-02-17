@@ -1,40 +1,61 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import UserStore from './store';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {
-  constructor(private users: UserStore) {}
+  constructor(private prisma: PrismaService) {}
 
   create(createUserDto: CreateUserDto) {
-    return this.users.createUser(createUserDto);
+    return this.prisma.user.create({ data: createUserDto });
   }
 
-  findAll() {
-    return this.users.getUsers();
+  async findAll() {
+    return this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
-    const user = this.users.getUserById(id);
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+  async findOne(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
     return user;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const { newPassword, oldPassword } = updateUserDto;
-    const user = this.findOne(id);
+
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
 
     if (oldPassword !== user.password) {
       throw new HttpException('Wrong old password', HttpStatus.FORBIDDEN);
     }
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    return this.users.updateUser(id, newPassword);
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { password: newPassword, version: { increment: 1 } },
+    });
   }
 
-  remove(id: string) {
-    const user = this.findOne(id);
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    return this.users.deleteUser(id);
+  async remove(id: string) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return this.prisma.user.delete({ where: { id } });
   }
 }

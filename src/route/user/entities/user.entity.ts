@@ -1,4 +1,4 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { IUser } from 'src/types';
 
 export class User implements IUser {
@@ -6,8 +6,8 @@ export class User implements IUser {
   login: string;
   password: string;
   version: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class SerializeUser implements User {
@@ -18,8 +18,11 @@ export class SerializeUser implements User {
   password: string;
 
   version: number;
-  createdAt: number;
-  updatedAt: number;
+
+  @Transform(({ value }) => new Date(value).getTime())
+  createdAt: Date;
+  @Transform(({ value }) => new Date(value).getTime())
+  updatedAt: Date;
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
