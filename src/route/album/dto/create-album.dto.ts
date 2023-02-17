@@ -1,7 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
-import { ICreateAlbumDto } from '../interfaces';
-
-export class CreateAlbumDto implements ICreateAlbumDto {
+export class CreateAlbumDto {
   @IsNotEmpty()
   @IsString()
   name: string;
