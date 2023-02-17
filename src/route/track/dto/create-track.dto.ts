@@ -1,7 +1,5 @@
 import { IsInt, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
-import { ICreateTrackDto } from '../interfaces';
-
-export class CreateTrackDto implements ICreateTrackDto {
+export class CreateTrackDto {
   @IsNotEmpty()
   @IsString()
   name: string;
