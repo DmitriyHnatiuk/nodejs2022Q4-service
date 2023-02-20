@@ -20,6 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "build:container": "npm install && npx prisma generate && npm run build && node dist/main.js",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down && docker compose rm -s -f -v",
     "docker:vulnerabilities": "npm run docker:up && git clone https://github.com/docker/docker-bench-security.git && cd docker-bench-security && ./docker-bench-security.sh && cd .. && rimraf -f docker-bench-security "
