@@ -1,4 +1,3 @@
-
 # Home Library Service
 
 ## Prerequisites
@@ -16,10 +15,22 @@ npm install
 rename file `.env.example` to `.env`
 
 ```
-npm start
+npm run docker:up
+```
+
+npm script for vulnerabilities scanning (free solution)
+
+```
+npm run docker:vulnerabilities
 ```
 
 After starting the app on port (4000 as default or changing it on `.env` file to `PORT=5000` ) you can open http://localhost:4000
+
+## Running the application
+
+```
+npm run docker:down
+```
 
 ## Testing
 
@@ -168,6 +179,7 @@ The user's password does not exist from the server response.
   </details>
 
 `Artists`
+
 <details>
 <summary><h4>Artists fields</h4></summary>
 <pre>
@@ -219,6 +231,7 @@ The user's password does not exist from the server response.
   </details>
 
 `Albums`
+
 <details>
 <summary><h4>Albums fields</h4></summary>
 <pre>

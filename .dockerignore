@@ -1,8 +1,9 @@
-# Dir
 node_modules
 REST_Client
 dist
 test
+doc
+.git
 
 # Files
 Dockerfile

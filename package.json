@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start:container": "npx prisma migrate deploy && sleep 1 && npm start",
+    "start:container": "npx prisma migrate deploy && sleep 1 && npx prisma generate && npm run start:dev",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -21,7 +21,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "docker:up": "docker compose up -d",
-    "docker:down": "docker compose rm -s -f -v"
+    "docker:down": "docker compose down && docker compose rm -s -f -v",
+    "docker:vulnerabilities": "npm run docker:up && git clone https://github.com/docker/docker-bench-security.git && cd docker-bench-security && ./docker-bench-security.sh && cd .. && rimraf -f docker-bench-security "
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
