@@ -27,11 +27,14 @@ services:
       - postgres
     volumes:
       - '.:/app'
+      - 'log:/app/log'
     networks:
       bridge-network:
         ipv4_address: ${SERVER_HOST}
     command: npm run start:container
 volumes:
+  log:
+    driver: local
   postgres:
     driver: local
   pgadmin-data:
