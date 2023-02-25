@@ -1,12 +1,12 @@
-import { validate } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
+import { validate } from 'uuid';
+import { usersRoutes } from './endpoints';
 import { request } from './lib';
 import {
   getTokenAndUserId,
-  shouldAuthorizationBeTested,
   removeTokenUser,
+  shouldAuthorizationBeTested,
 } from './utils';
-import { usersRoutes } from './endpoints';
 
 const createUserDto = {
   login: 'TEST_LOGIN',
@@ -140,7 +140,7 @@ describe('Users (e2e)', () => {
         responses.every(
           ({ statusCode }) => statusCode === StatusCodes.BAD_REQUEST,
         ),
-      );
+      ).toBe(true);
     });
   });
 
