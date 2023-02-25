@@ -25,3 +25,29 @@ export function excludeFields<T extends Entity, K extends Keys<T>>(
   }
   return result;
 }
+
+export const tokenDuration = {
+  [process.env.JWT_SECRET_KEY]: process.env.TOKEN_EXPIRE_TIME,
+  [process.env.JWT_SECRET_REFRESH_KEY]: process.env.TOKEN_REFRESH_EXPIRE_TIME,
+};
+
+export const DEFAULT_LOG_LEVELS = [
+  'error',
+  'warn',
+  'log',
+  'debug',
+  'verbose',
+] as const;
+
+export const getLogLevel = () =>
+  DEFAULT_LOG_LEVELS.slice(0, Number(process.env.LOGGER_LEVEL) + 1);
+
+export const generateMessage = (
+  name: string,
+  message: string,
+  trace?: string,
+) => {
+  return `[${new Date().toJSON()}] [${name}] ${message} ${
+    trace ? ` - ${trace}` : ''
+  }`;
+};

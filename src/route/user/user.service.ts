@@ -1,13 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { compare, hash } from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
+  protected generatePasswordHash(password: string) {
+    return hash(password, Number(process.env.CRYPT_SALT));
+  }
 
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({ data: createUserDto });
+  async create(createUserDto: CreateUserDto) {
+    const { login, password } = createUserDto;
+    const _hashedPassword = await this.generatePasswordHash(password);
+    return this.prisma.user.create({
+      data: { login, password: _hashedPassword },
+    });
   }
 
   async findAll() {
@@ -40,13 +48,17 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    if (oldPassword !== user.password) {
+    const isValidPassword = await compare(oldPassword, user.password);
+
+    if (!isValidPassword) {
       throw new HttpException('Wrong old password', HttpStatus.FORBIDDEN);
     }
 
+    const _hashedPassword = await this.generatePasswordHash(newPassword);
+
     return this.prisma.user.update({
       where: { id },
-      data: { password: newPassword, version: { increment: 1 } },
+      data: { password: _hashedPassword, version: { increment: 1 } },
     });
   }
 
