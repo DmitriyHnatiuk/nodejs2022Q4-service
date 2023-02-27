@@ -1,7 +1,13 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { tokenDuration } from 'src/utils';
 import { UserService } from './../user/user.service';
@@ -59,17 +65,43 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  refresh(updateAuthDto: UpdateAuthDto) {
-    console.log(updateAuthDto);
-    const { refreshToken } = updateAuthDto;
-
-    if (!refreshToken) {
+  async refresh(updateAuthDto: UpdateAuthDto) {
+    if (!updateAuthDto.refreshToken) {
       throw new HttpException(
         'Invalid authorizations',
         HttpStatus.UNAUTHORIZED,
       );
     }
 
-    return `refresh`;
+    try {
+      const data = await this.jwt.verify(updateAuthDto.refreshToken, {
+        ignoreExpiration: false,
+        secret: process.env.JWT_SECRET_REFRESH_KEY,
+      });
+      const user = await this.prisma.user.findUnique({
+        where: { id: data.sub },
+      });
+
+      if (!user) {
+        throw new JsonWebTokenError('Error');
+      }
+
+      const payload = { sub: data.sub, login: data.login };
+      const accessToken = await this.generateAccessToken(
+        payload,
+        process.env.JWT_SECRET_KEY,
+      );
+      const refreshToken = await this.generateAccessToken(
+        payload,
+        process.env.JWT_SECRET_REFRESH_KEY,
+      );
+
+      return { accessToken, refreshToken };
+    } catch (error) {
+      if (error instanceof JsonWebTokenError) {
+        throw new ForbiddenException('Invalid refresh token');
+      }
+      throw error;
+    }
   }
 }

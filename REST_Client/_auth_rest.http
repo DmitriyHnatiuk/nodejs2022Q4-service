@@ -43,32 +43,29 @@ content-type: application/json
   "password": "password"
 }
 
-### POST refresh -- aspect code 200
+### POST refresh -- aspect code 200 if token is ok
 POST http://localhost:4000/auth/refresh
 content-type: application/json
 
 {
-  "login": "123",
-  "password": "password"
+  "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWYxOTc0NC04NmNkLTRlMjUtYTQ3MC05NTg4OGJjMzdkNGMiLCJsb2dpbiI6ImxvZ2luIiwiaWF0IjoxNjc3NTI5MjI3LCJleHAiOjE2Nzc2MTU2Mjd9.3j9qjTFWZ87fLia_9-navwBFpUyISAQ9Knl8jreRhpM"
 }
 
-### POST refresh invalid login -- aspect code 400
+### POST refresh invalid login -- aspect code 403
 POST http://localhost:4000/auth/refresh
 content-type: application/json
 
 {
-  "login": 1,
-  "password": "password"
+  "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWYxOTc0NC04NmNkLTRlMjUtYTQ3MC05NTg4OGJjMzdkNGMiLCJsb2dpbiI6ImxvZ2luIiwiaWF0IjoxNjc3NTI5MjI3LCJleHAiOjE2Nzc2MTU2Mjd9.3j9qjTFWZ87fLia_9-navwBFpUyISAQ9Knl8jreRhpM"
 }
 
-### POST refresh wrong thoken -- aspect code 403
+### POST refresh wrong thoken -- aspect code 401
 POST http://localhost:4000/auth/refresh
 content-type: application/json
-Authorization: Bearer <sdsdsd>
+# Authorization: Bearer <sdsdsd>
 
 {
-  "login": "123",
-  "password": "password"
+  "login":"login"
 }
 
 ### GET 404 -- aspect code 404
