@@ -1,8 +1,11 @@
 ### GET all users -- aspect code 200
 GET http://localhost:4000/user
+Content-Type: application/xml
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YjNlNjUxNC05OTA3LTQ4M2UtYTkyMC0zMGFhMTQ0MmNjNTQiLCJsb2dpbiI6ImxvZ2luIiwiaWF0IjoxNjc3MzcyMTgzLCJleHAiOjE2Nzc0NTg1ODN9.R7Ti-54EPZRPDS0XrseWn6vDkFTFPtYIoM1ZNiEPsb0
 
 ### GET user by user id -- aspect code 200 if user exist
 GET  http://localhost:4000/user/51737199-04d2-4abe-8fb7-7b2c70c6a724
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YjNlNjUxNC05OTA3LTQ4M2UtYTkyMC0zMGFhMTQ0MmNjNTQiLCJsb2dpbiI6ImxvZ2luIiwiaWF0IjoxNjc3MzcyMTgzLCJleHAiOjE2Nzc0NTg1ODN9.R7Ti-54EPZRPDS0XrseWn6vDkFTFPtYIoM1ZNiEPsb0
 
 ### GET not valid id -- aspect code 400
 GET http://localhost:4000/user/sime_id
