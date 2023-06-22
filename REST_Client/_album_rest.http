@@ -1,0 +1,73 @@
+### GET all albums -- aspect code 200
+GET http://localhost:4000/album
+
+### GET album by album id -- aspect code 200 if album exist
+GET  http://localhost:4000/album/37d2a438-c2d0-4ad4-a5a1-f2b13c0c6139
+
+### GET not valid id -- aspect code 400
+GET http://localhost:4000/album/sime_id
+
+### GET not existing album -- aspect code 404
+GET http://localhost:4000/album/7ca29540-0942-411e-852a-45c169817964
+
+### POST add new album -- aspect code 201
+POST http://localhost:4000/album
+content-type: application/json
+
+{
+  "name": "TEST_ALBUM",
+  "year": 2023,
+  "artistId": null
+} 
+
+### POST add new album NOT valid body -- aspect code 500
+POST http://localhost:4000/album
+content-type: application/json
+
+{
+  "name": "TEST_ALBUM_2",
+  "year": 2023,
+  "artistId": null
+} 
+
+### PUT update album by album id -- aspect code 200
+PUT http://localhost:4000/album/739595fd-4b84-4f2d-bf62-f8061f60fc63
+content-type: application/json
+
+{
+  "name": "TEST_ALBUM_3",
+  "year": 2023
+}
+
+### PUT update album by album id NOT exist -- aspect code 404
+PUT http://localhost:4000/album/8df366bd-e51d-436f-bb4b-60d7b89290d9
+content-type: application/json
+
+{
+  "name": "TEST_ALBUM_4",
+  "year": 2023,
+  "artistId": null
+}
+
+### PUT update album by album id NOT valid album id -- aspect code 400
+PUT http://localhost:4000/album/some_id
+content-type: application/json
+
+{
+  "name": "TEST_ALBUM_5",
+  "year": 2023,
+  "artistId": null
+}
+
+### DELELTE delete album by album id -- aspect code 204 if album exist
+DELETE http://localhost:4000/album/739595fd-4b84-4f2d-bf62-f8061f60fc63
+
+### DELETE delete album by album id NOT Valid -- aspect code 400
+DELETE http://localhost:4000/album/some_id
+
+
+### DELETE delete album by album id NOT exist -- aspect code 404
+DELETE http://localhost:4000/album/a1ed4ab0-9b7a-4af8-a6a7-28136f8a44a4
+
+### GET 404 Page not found
+GET http://localhost:4000/not_exist_page

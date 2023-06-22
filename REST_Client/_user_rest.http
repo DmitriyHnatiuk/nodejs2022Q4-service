@@ -1,0 +1,73 @@
+### GET all users -- aspect code 200
+GET http://localhost:4000/user
+Content-Type: application/xml
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YjNlNjUxNC05OTA3LTQ4M2UtYTkyMC0zMGFhMTQ0MmNjNTQiLCJsb2dpbiI6ImxvZ2luIiwiaWF0IjoxNjc3MzcyMTgzLCJleHAiOjE2Nzc0NTg1ODN9.R7Ti-54EPZRPDS0XrseWn6vDkFTFPtYIoM1ZNiEPsb0
+
+### GET user by user id -- aspect code 200 if user exist
+GET  http://localhost:4000/user/51737199-04d2-4abe-8fb7-7b2c70c6a724
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YjNlNjUxNC05OTA3LTQ4M2UtYTkyMC0zMGFhMTQ0MmNjNTQiLCJsb2dpbiI6ImxvZ2luIiwiaWF0IjoxNjc3MzcyMTgzLCJleHAiOjE2Nzc0NTg1ODN9.R7Ti-54EPZRPDS0XrseWn6vDkFTFPtYIoM1ZNiEPsb0
+
+### GET not valid id -- aspect code 400
+GET http://localhost:4000/user/sime_id
+
+### GET not existing user -- aspect code 404
+GET http://localhost:4000/user/7ca29540-0942-411e-852a-45c169817964
+
+### POST add new user -- aspect code 201
+POST http://localhost:4000/user
+content-type: application/json
+
+{
+  "login": "Alex",
+  "password": "123"
+} 
+
+### POST add new user NOT valid body -- aspect code 500
+POST http://localhost:4000/user
+content-type: application/json
+
+{
+  "login": "Alex",
+  "password": "123",
+} 
+
+### PUT update user by user id -- aspect code 200
+PUT http://localhost:4000/user/c7d2f8bf-bce2-4210-b880-9879b5f70e01
+content-type: application/json
+
+{
+ 
+  "oldPassword": "123",
+  "newPassword": "321"
+}
+
+### PUT update user by user id NOT exist -- aspect code 404
+PUT http://localhost:4000/user/3a513123-c822-4040-a83f-1b88f3defec5
+content-type: application/json
+
+{
+  "oldPassword": "123",
+  "newPassword": "321"
+}
+
+### PUT update user by user id NOT valid user id -- aspect code 400
+PUT http://localhost:4000/user/some_id
+content-type: application/json
+
+{
+  "oldPassword": "123",
+  "newPassword": "321"
+}
+
+### DELELTE delete user by user id -- aspect code 204 if user exist
+DELETE http://localhost:4000/user/7b4c1958-38c9-4865-a37e-4df7e6c29e27
+
+### DELETE delete user by user id NOT Valid -- aspect code 400
+DELETE http://localhost:4000/user/some_id
+
+
+### DELETE delete user by user id NOT exist -- aspect code 404
+DELETE http://localhost:4000/user/a1ed4ab0-9b7a-4af8-a6a7-28136f8a44a4
+
+### GET 404 Page not found
+GET http://localhost:4000/not_exist_page
