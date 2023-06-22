@@ -21,12 +21,14 @@ export class AuthService {
     private readonly jwt: JwtService,
   ) {}
 
-  generateAccessToken(payload: string | Buffer | object, secret: string) {
+  generateAccessToken(payload: string | object, secret: string) {
     const duration = tokenDuration[secret as string];
-    return this.jwt.signAsync(payload, {
+    const options = {
       expiresIn: duration,
       secret,
-    });
+    };
+
+    this.jwt.signAsync(JSON.stringify(payload), options);
   }
 
   create(createAuthDto: CreateAuthDto) {
