@@ -1,0 +1,60 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["user", "artist", "album", "track"]
+}
+
+model User {
+  id        String   @id @default(uuid())
+  login     String
+  password  String
+  version   Int      @default(1)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
+
+  @@schema("user")
+}
+
+model Artist {
+  id     String  @id @default(uuid())
+  name   String
+  grammy Boolean
+  album  Album[]
+  track  Track[]
+
+  isFavorite Boolean @default(false)
+
+  @@schema("artist")
+}
+
+model Album {
+  id       String  @id @default(uuid())
+  name     String
+  year     Float
+  artistId String?
+  artist   Artist? @relation(fields: [artistId], references: [id])
+  track    Track[]
+
+  isFavorite Boolean @default(false)
+
+  @@schema("album")
+}
+
+model Track {
+  id       String  @id @default(uuid())
+  name     String
+  artistId String?
+  albumId  String?
+  duration Int
+  album    Album?  @relation(fields: [albumId], references: [id])
+  artist   Artist? @relation(fields: [artistId], references: [id])
+
+  isFavorite Boolean @default(false)
+
+  @@schema("track")
+}

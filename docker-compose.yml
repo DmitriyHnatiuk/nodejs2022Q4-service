@@ -1,0 +1,44 @@
+version: '3'
+services:
+  postgres:
+    build: ./postgres/
+    # image: dmytrohnatiuk/containerization-server:postgres
+    restart: always
+    container_name: postgres
+    ports:
+      - ${POSTGRES_PORT}:5432
+    env_file: ./.env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      bridge-network:
+        ipv4_address: ${DB_HOST}
+  server:
+    build: .
+    # image: dmytrohnatiuk/containerization-server:server
+    container_name: server
+    env_file: ./.env
+    restart: unless-stopped
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - '.:/app'
+    networks:
+      bridge-network:
+        ipv4_address: ${SERVER_HOST}
+    command: npm run start:container
+volumes:
+  postgres:
+    driver: local
+  pgadmin-data:
+    driver: local
+networks:
+  bridge-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET}
