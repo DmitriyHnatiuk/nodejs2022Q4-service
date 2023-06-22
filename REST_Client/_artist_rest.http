@@ -1,0 +1,69 @@
+### GET all artists -- aspect code 200
+GET http://localhost:4000/artist
+
+### GET artist by artist id -- aspect code 200 if artist exist
+GET  http://localhost:4000/artist/37d2a438-c2d0-4ad4-a5a1-f2b13c0c6139
+
+### GET not valid id -- aspect code 400
+GET http://localhost:4000/artist/sime_id
+
+### GET not existing artist -- aspect code 404
+GET http://localhost:4000/artist/7ca29540-0942-411e-852a-45c169817964
+
+### POST add new artist -- aspect code 201
+POST http://localhost:4000/artist
+content-type: application/json
+
+{
+  "name": "TEST_artist",
+  "grammy": true
+} 
+
+### POST add new artist NOT valid body -- aspect code 500
+POST http://localhost:4000/artist
+content-type: application/json
+
+{
+  "name": "TEST_artist_2",
+  "grammy": true,
+} 
+
+### PUT update artist by artist id -- aspect code 200
+PUT http://localhost:4000/artist/c7d2f8bf-bce2-4210-b880-9879b5f70e01
+content-type: application/json
+
+{
+  "name": "TEST_artist_3",
+  "grammy": false
+}
+
+### PUT update artist by artist id NOT exist -- aspect code 404
+PUT http://localhost:4000/artist/3a513123-c822-4040-a83f-1b88f3defec5
+content-type: application/json
+
+{
+  "name": "TEST_artist_4",
+  "grammy": false,
+}
+
+### PUT update artist by artist id NOT valid artist id -- aspect code 400
+PUT http://localhost:4000/artist/some_id
+content-type: application/json
+
+{
+  "name": "TEST_artist_5",
+  "grammy": false,
+}
+
+### DELELTE delete artist by artist id -- aspect code 204 if artist exist
+DELETE http://localhost:4000/artist/9befe113-4862-49f2-b1be-f9643d4d8e0e
+
+### DELETE delete artist by artist id NOT Valid -- aspect code 400
+DELETE http://localhost:4000/artist/some_id
+
+
+### DELETE delete artist by artist id NOT exist -- aspect code 404
+DELETE http://localhost:4000/artist/a1ed4ab0-9b7a-4af8-a6a7-28136f8a44a4
+
+### GET 404 Page not found
+GET http://localhost:4000/not_exist_page
